@@ -31,7 +31,13 @@ func GetRedisClusterNodes(ctx context.Context, address string, username string, 
 		}
 
 		// address
-		address := strings.Split(words[1], "@")[0]
+		if strings.Contains(words[1], ",") {
+			address = strings.Split(words[1], ",")[1]
+			address += ":6379"
+		} else {
+			address := strings.Split(words[1], "@")[0]
+		}
+		
 		// handle ipv6 address
 		tok := strings.Split(address, ":")
 		if len(tok) > 2 {
